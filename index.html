@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter for Hima Chandra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff79a7;
+            --secondary: #ff9ec1;
+            --bg: #fff5f9;
+            --dark-pink: #2b0010;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: #fce4ec;
+            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body.locked { overflow: hidden; }
+
+        /* --- CINEMATIC PORTAL REVEAL (NEW) --- */
+        #portal-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 1.2s ease;
+        }
+
+        .portal-bg {
+            position: absolute;
+            width: 150%; height: 150%;
+            background: radial-gradient(circle at center, var(--primary) 0%, var(--dark-pink) 70%);
+            opacity: 0.4;
+            filter: blur(80px);
+            animation: pulseBg 10s infinite alternate;
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .center-trigger {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .main-heart {
+            font-size: clamp(60px, 15vw, 100px);
+            filter: drop-shadow(0 0 20px var(--primary));
+            animation: floatHeart 3s infinite ease-in-out;
+            user-select: none;
+            display: inline-block;
+        }
+
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 20px var(--primary)); }
+            50% { transform: translateY(-20px) scale(1.1); filter: drop-shadow(0 0 40px var(--primary)); }
+        }
+
+        .portal-text {
+            margin-top: 30px;
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+
+        .tap-hint {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            margin-top: 15px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        .portal-shatter { transform: scale(4); opacity: 0; pointer-events: none; }
+
+        /* --- ORIGINAL WEBSITE STYLES (RESTORED) --- */
+        #main-content { display: none; opacity: 0; transition: opacity 1s; }
+        body.active-site { overflow-y: auto; }
+        body.active-site #main-content { display: block; opacity: 1; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .heart-particle { position: fixed; bottom: -20px; color: var(--primary); pointer-events: none; z-index: 1; animation: floatUp 6s linear forwards; opacity: 0.5; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+        
+        header { min-height: 100vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.4)), url('https://i1.pickpik.com/photos/276/891/601/rose-petals-pink-background-love-preview.jpg') center/cover no-repeat; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 40px 20px; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 12vw, 7rem); margin-bottom: 0.5rem; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .subtitle { font-size: clamp(1.1rem, 2vw + 0.5rem, 1.5rem); margin: 1rem auto 2.5rem; max-width: 900px; padding: 0 15px; opacity: 0.95; }
+        .mood-container { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 40px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.3); width: 95%; max-width: 600px; }
+        .mood-btn { background: rgba(255,255,255,0.25); border: 1px solid white; color: white; padding: 0.7rem 1.4rem; margin: 5px; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+        
+        section { padding: 80px 15px; max-width: 1100px; margin: 0 auto; }
+        .section-title { font-family: 'Dancing Script', cursive; font-size: clamp(3rem, 10vw, 4.5rem); color: var(--primary); text-align: center; margin-bottom: 4rem; }
+        
+        .timeline { position: relative; }
+        @media (min-width: 768px) { .timeline::before { content: ''; position: absolute; width: 2px; background: var(--secondary); top: 0; height: calc(100% - 150px); left: 50%; transform: translateX(-50%); opacity: 0.3; } .heart-anchor { display: block; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #fce4ec; padding: 8px; border-radius: 50%; z-index: 10; color: var(--primary); font-size: 1.2rem; } }
+        
+        .event { margin-bottom: 100px; display: flex; flex-direction: column; position: relative; }
+        .event-content { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; position: relative; z-index: 2; }
+        .event-date { color: var(--primary); font-weight: 700; font-size: clamp(1.1rem, 4vw, 1.3rem); margin-bottom: 10px; display: block; }
+        @media (min-width: 768px) { .event { flex-direction: row; justify-content: space-between; align-items: center;} .event-content { width: 44%; } .event:nth-child(even) .event-content { margin-left: auto; } }
+        
+        .special-event { background: #fff0f5; border: 1px dashed var(--primary); text-align: center; width: 100% !important; margin: 20px 0 0 0 !important; }
+        .uncertainty-note { background: white; border-left: 6px solid var(--primary); padding: 2.5rem; margin: 4rem auto; border-radius: 10px; font-style: italic; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+        
+        .sticker-section { text-align: center; background: #fff; padding: 100px 20px; border-radius: 50px 50px 0 0; }
+        .reveal-button { background: var(--primary); color: white; border: none; padding: 15px 45px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(255,121,167,0.4); }
+        
+        #sticker-container { margin-top: 50px; display: none; position: relative; max-width: 360px; margin-left: auto; margin-right: auto; }
+        .sticky-note { position: absolute; top: -25px; right: -15px; background: #fff982; padding: 15px; width: 150px; min-height: 110px; box-shadow: 5px 5px 15px rgba(0,0,0,0.15); font-family: 'Indie Flower', cursive; font-size: 1.3rem; color: #333; line-height: 1.2; transform: rotate(15deg) scale(0); z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .sticky-note.pop { transform: rotate(-8deg) scale(1); }
+        .sticker-img { width: 100%; border-radius: 5px; border: 12px solid white; box-shadow: 0 15px 45px rgba(0,0,0,0.1); opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+        .sticker-img.show { opacity: 1; transform: translateY(0); }
+        footer { text-align: center; padding: 60px 20px; background: #fff0f5; font-size: 0.9rem; color: #888; }
+    </style>
+</head>
+<body id="body-tag" class="locked">
+
+    <div id="portal-screen">
+        <div class="portal-bg"></div>
+        <div class="center-trigger" onclick="unlockMemory()">
+            <div class="main-heart">❤️</div>
+            <div class="portal-text">For Papa</div>
+            <div class="tap-hint">Tap on my Heart to unveil</div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <header>
+            <h1 id="nickname">Hima Chandra</h1>
+            <p class="subtitle">My Curly ❤️ | From Lone Star Skies to Emerald City Lights — Every Mile Melts in the Warmth of Your Name</p>
+            <div class="mood-container">
+                <p style="margin-bottom: 15px;">Today you're my: <strong id="current-name">Hima</strong></p>
+                <button class="mood-btn" onclick="changeMood('hima')">Hima 😊</button>
+                <button class="mood-btn" onclick="changeMood('papa')">Papa 🥰</button>
+                <button class="mood-btn" onclick="changeMood('curly')">Curly 👩🏻‍🦱</button>
+            </div>
+        </header>
+
+        <section>
+            <h2 class="section-title reveal">Whispers of Destiny</h2>
+            <div class="timeline">
+                <div class="event reveal">
+                    <div class="heart-anchor">❤️</div>
+                    <div class="event-content">
+                        <span class="event-date">November 1st, 2025 • 10:50 PM PST</span>
+                        <p>Our very first call — the night that changed everything. We talked for hours, and I discovered I could actually open up and chat endlessly... all because of you.</p>
+                    </div>
+                </div>
+                <div class="event reveal">
+                    <div class="heart-anchor">❤️</div>
+                    <div class="event-content">
+                        <span class="event-date">November 26th, 2025 • 8:40 PM CST</span>
+                        <p>First in-person meeting at Mexican Sugar restaurant. I was so nervous — it was my first time going out with a girl. I have this terrible habit of ordering the worst dish, so I asked you to choose the food. You wore a brownish top and jeans... and from that moment, I was completely smitten.</p>
+                    </div>
+                </div>
+                <div class="event reveal">
+                    <div class="heart-anchor">❤️</div>
+                    <div class="event-content">
+                        <span class="event-date">November 30th, 2025 • 1:15 PM CST</span>
+                        <p>Second meeting at the temple — this time with family. I was nervous again, especially because your babai was there to be convinced. You looked beautiful in a pink dress. It was a short family meeting where my brother and his wife met you, and your babai and cousins got to know me. A meaningful step forward.</p>
+                    </div>
+                </div>
+                <div class="event reveal">
+                    <div class="heart-anchor">❤️</div>
+                    <div class="event-content">
+                        <span class="event-date">January 20th, 2026 • 12:38 PM CST</span>
+                        <p>Third meeting at the same temple. We planned for a movie, but things didn't work out. Until the last moment, I thought we might not meet. But by God's grace, you told me you'd be at the temple on Tuesday. I swiped my badge at the office, rushed to my friend's house for the car, and hurried to see you. You wore a blue dress with white pant leggings. It was short because you had a flight back to Seattle, but every second was precious.</p>
+                    </div>
+                </div>
+                <div class="event reveal">
+                    <div class="event-content special-event">
+                        <span class="event-date">Every Day Since Then</span>
+                        <p>Daily texts that stretch forever, calls that end way too soon, and a heart that falls deeper for you with every "good morning" and "good night". You're my favorite notification.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uncertainty-note reveal">
+                <p><strong>A small confession from my heart...</strong></p>
+                <p>I call you Hima, Papa, Curly, Curly Dhayyam — depending on the moment and how the words feel. Sometimes I add "My" because it feels so right. But honestly, I'm never completely sure if you like them as much as I love saying them. If any of these make you smile (even a tiny one), or if they feel too much... please tell me. I just want you to feel as special hearing them as I feel saying them. ❤️</p>
+                <p>No pressure, just honesty — because you deserve to know how much thought goes into every little name I give you.</p>
+            </div>
+        </section>
+
+        <section class="sticker-section reveal">
+            <h2 class="section-title">A Little Memory</h2>
+            <p style="margin-bottom: 30px;">You have too many photographs that steal my breath...But this one is special..</p>
+            <button id="reveal-btn" class="reveal-button" onclick="showSticker()">Show Me 😊</button>
+            <div id="sticker-container">
+                <div id="sticky-note" class="sticky-note">Got you! <br> Hahaha! ❤️</div>
+                <img src="Sticker.jpeg" id="sticker-img" class="sticker-img" alt="Special Photo">
+            </div>
+        </section>
+
+        <footer>
+            <p>Made with all my love, a little nervousness, and endless affection for you ❤️<br>
+            From Texas to Seattle — January 2026</p>
+        </footer>
+    </main>
+
+    <script>
+        function unlockMemory() {
+            const portal = document.getElementById('portal-screen');
+            const body = document.getElementById('body-tag');
+            
+            portal.classList.add('portal-shatter');
+            
+            setTimeout(() => {
+                body.classList.remove('locked');
+                body.classList.add('active-site');
+                reveal(); 
+            }, 600);
+
+            setTimeout(() => {
+                portal.style.display = 'none';
+            }, 1600);
+        }
+
+        function changeMood(type) {
+            const nameDisplay = document.getElementById('current-name');
+            const mainTitle = document.getElementById('nickname');
+            if(type === 'hima') { nameDisplay.innerText = 'Hima'; mainTitle.innerText = 'Hima Chandra'; }
+            else if(type === 'papa') { nameDisplay.innerText = 'Papa'; mainTitle.innerText = 'Papa'; }
+            else if(type === 'curly') { nameDisplay.innerText = 'Curly'; mainTitle.innerText = 'My Curly Dhayyam'; }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 6000);
+        }
+        setInterval(createHeart, 2000);
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        function showSticker() {
+            const container = document.getElementById('sticker-container');
+            const img = document.getElementById('sticker-img');
+            const btn = document.getElementById('reveal-btn');
+            const note = document.getElementById('sticky-note');
+            container.style.display = 'block';
+            btn.style.opacity = '0';
+            setTimeout(() => {
+                img.classList.add('show');
+                note.classList.add('pop');
+                btn.style.display = 'none';
+            }, 50);
+        }
+    </script>
+</body>
+</html>
